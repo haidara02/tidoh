@@ -4,11 +4,12 @@ import React from "react";
 import { AiOutlineRetweet, AiOutlineHeart } from "react-icons/ai";
 import { BsChat, BsDot, BsThreeDots } from "react-icons/bs";
 import { IoStatsChart, IoShareOutline } from "react-icons/io5";
+import { Button } from "./ui/button";
 
 const Timeline = () => {
   return (
     <main className="flex w-[50%] max-w-[600px] h-full min-h-screen flex-col border-l-[0.5px] border-r-[0.5px] border-gray-500">
-      <h1 className="p-6 backdrop-blur sticky top-0 z-10 bg-black/10 text-xl font-bold text-white">
+      <h1 className="p-6 backdrop-blur sticky top-0 z-10 text-xl font-bold text-foreground">
         Feed
       </h1>
       <div className="flex items-stretch p-4 space-x-2 border-t-[0.5px] border-b-[0.5px] border-gray-500 relative">
@@ -16,15 +17,15 @@ const Timeline = () => {
         <div className="flex flex-col w-full h-full">
           <input
             type="text"
-            className="w-full h-10 p-4 bg-transparent border-b-[0.5px] border-gray-500 placeholder:text-gray-400 outline-none border-none"
+            className="w-full h-10 p-4 bg-transparent border-b-[0.5px] border-gray-500 placeholder:text-muted-foreground outline-none border-none"
             placeholder="What's happening?"
           />
           <div className="w-full justify-between items-center flex">
             <div></div>
             <div className="w-full max-w-[100px]">
-              <button className="bg-white hover:bg-white/70 text-black rounded-full py-2 px-4 text-lg font-bold  transition duration-200">
+              <Button className="rounded-full py-2 px-4 text-lg font-bold cursor-pointer transition duration-200">
                 Wave
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -39,18 +40,18 @@ const Timeline = () => {
             <div className="flex flex-col w-full h-full">
               <div className="flex items-center w-full justify-between">
                 <div className="flex items-center space-x-2 w-full">
-                  <h1 className="text-lg font-bold text-white">Koifish</h1>
-                  <p className="text-sm text-gray-400">@koifish</p>
+                  <h1 className="text-lg font-bold text-foreground">Koifish</h1>
+                  <p className="text-sm text-secondary-foreground">@koifish</p>
                   <div>
-                    <BsDot className="text-gray-400" />
+                    <BsDot className="text-secondary-foreground" />
                   </div>
-                  <p className="text-sm text-gray-400">2h</p>
+                  <p className="text-sm text-secondary-foreground">2h</p>
                 </div>
                 <div>
                   <BsThreeDots />
                 </div>
               </div>
-              <div className="text-sm text-white my-1">
+              <div className="text-sm text-foreground my-1">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
                 nemo numquam quo perferendis voluptatum libero doloremque id
                 corrupti laudantium voluptates!
