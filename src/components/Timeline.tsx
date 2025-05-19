@@ -9,7 +9,7 @@ const Timeline = () => {
   return (
     <main className="flex w-[50%] max-w-[600px] h-full min-h-screen flex-col border-l-[0.5px] border-r-[0.5px] border-gray-500">
       <h1 className="p-6 backdrop-blur sticky top-0 z-10 bg-black/10 text-xl font-bold text-white">
-        Home
+        Feed
       </h1>
       <div className="flex items-stretch p-4 space-x-2 border-t-[0.5px] border-b-[0.5px] border-gray-500 relative">
         <div className="w-10 h-10 bg-slate-400 rounded-full flex-none"></div>
