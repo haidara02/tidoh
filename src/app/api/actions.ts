@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { createClient } from '../../../utils/supabase/server'
+import { createClient } from '@utils/supabase/server'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
@@ -18,12 +18,10 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    return { error: error.message }
   }
 
-//   revalidatePath('/', 'layout')
-  redirect('/auth/success')
+  return { success: true }
 }
 
 export async function signup(formData: FormData) {
@@ -51,15 +49,14 @@ export async function signup(formData: FormData) {
   .eq("username", username.trim());
 
   if (existing.data && existing.data.length > 0) {
-    console.log("Username already exists");
-    redirect('/error')
-  } else {
-    const { error } = await supabase.auth.signUp(data)
-
-    if (error) {
-      redirect('/error')
-    }
-  
-    redirect('/auth/success')
+    return { error: "Username already exists" }
   }
+
+  const { error } = await supabase.auth.signUp(data)
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  return { success: true }
 }
