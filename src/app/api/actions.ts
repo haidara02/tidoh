@@ -31,9 +31,10 @@ export async function signup(formData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
+  const username = formData.get('username') as string
   const options = {
     data: {
-      username: formData.get('username') as string,
+      username: username,
       full_name: formData.get('fullname') as string,
     }
   };
@@ -44,11 +45,21 @@ export async function signup(formData: FormData) {
     options: options,
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const existing = await supabase
+  .from("profiles")
+  .select()
+  .eq("username", username.trim());
 
-  if (error) {
+  if (existing.data && existing.data.length > 0) {
+    console.log("Username already exists");
     redirect('/error')
-  }
+  } else {
+    const { error } = await supabase.auth.signUp(data)
 
-  redirect('/auth/success')
+    if (error) {
+      redirect('/error')
+    }
+  
+    redirect('/auth/success')
+  }
 }
