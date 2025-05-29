@@ -1,30 +1,56 @@
-# tidoh
-- another social media app
+# Tydal 🌊
+- another social media app 
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Tydal is a modern, minimalist social media platform inspired by Twitter. Built with Next.js 13 and designed for speed, simplicity, and scalability.
 
-## Getting Started
+## 🚀 Getting Started
 
-First, run the development server:
+To run the development server:
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+app/ — Entry point for routes and pages (Next.js 13 App Router)
 
-## Learn More
+components/ — Shared UI components
 
-To learn more about Next.js, take a look at the following resources:
+lib/ — Utilities and helpers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+styles/ — Global and module CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+types/ — TypeScript definitions
+
+
+## 🛠️ Tech Stack
+
+To do
+
+## 📦 Features
+
+Tweet-style post creation and display
+
+User authentication
+
+Responsive and accessible UI
+
+Optimized font loading
+
+Dark mode
+
+## 📍 Roadmap
+
+User profiles
+
+Comments and likes
+
+Real-time updates with WebSockets or Server Actions
+
+Image/video support
 
 ## Deploy on Vercel
 
