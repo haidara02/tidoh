@@ -24,42 +24,50 @@ const NAVIGATION_ITEMS = [
 
 const Sidebar = () => {
   return (
-    <section className="sticky top-0 w-[20%] flex flex-col items-stretch h-screen">
-      <div className="flex flex-col items-stretch h-full space-y-4 mt-4">
+    <section className="sticky top-0 w-[10%] xl:w-[20%] min-w-[70px] xl:min-w-[250px] max-w-[250px] flex flex-col items-center h-screen">
+      <div className="flex flex-col p-2 items-center xl:items-stretch h-full space-y-4 mt-4">
         {NAVIGATION_ITEMS.map((item) => (
           <Link
             className={clsx(
-              "hover:bg-foreground/10 text-2xl transition duration-200 w-fit rounded-full text-foreground p-2",
+              "flex items-center justify-start hover:bg-foreground/10 text-xl transition duration-200 w-fit rounded-full text-foreground p-2",
               {
-                "text-2xl flex items-center justify-start space-x-6 py-2 px-6":
-                  item.name !== "Tydal",
+                "xl:gap-4 xl:py-2 xl:pr-6": item.name !== "Tydal",
               }
             )}
             href={`/${item.path}`}
             key={item.name}
           >
             <div>{item.icon}</div>
-            {item.name !== "Tydal" && <div>{item.name}</div>}
+            <div
+              className={clsx("hidden", {
+                "xl:block": item.name !== "Tydal",
+              })}
+            >
+              {item.name}
+            </div>
           </Link>
         ))}
         <Button
-          className="rounded-full py-6 px-6 m-4 text-2xl font-bold transition duration-200 cursor-pointer"
+          className="rounded-full p-2 text-lg font-bold transition duration-200 cursor-pointer w-10 h-10 max-w-[250px] flex items-center justify-center xl:w-[90%] xl:h-auto"
           variant="default"
           size="lg"
         >
-          Wave
+          <span className="block xl:hidden">
+            <BsEnvelope />
+          </span>
+          <span className="hidden xl:block">Wave</span>
         </Button>
       </div>
-      <button className="rounded-full w-full flex items-center justify-between space-x-2 p-4 bg-transparent text-2xl font-bold text-center hover:bg-foreground/10 transition duration-200">
-        <div className="flex items-center space-x-2">
+      <button className="rounded-full w-full flex items-center justify-center xl:justify-between xl:gap-2 p-4 bg-transparent text-2xl font-bold hover:bg-foreground/10 transition duration-200">
+        <div className="flex items-center justify-center xl:space-x-2">
           <div className="rounded-full bg-slate-400 w-12 h-12"></div>
-          <div className="text-left">
+          <div className="text-left hidden xl:block">
             <div className="text-sm font-bold text-foreground">User Name</div>
             <div className="text-xs text-muted-foreground">@username</div>
           </div>
         </div>
-        <div>
-          <BsThreeDots className="text-foreground" />
+        <div className="hidden xl:block text-foreground">
+          <BsThreeDots />
         </div>
       </button>
     </section>
