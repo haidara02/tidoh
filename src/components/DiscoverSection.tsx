@@ -22,7 +22,7 @@ const DiscoverSection = () => {
         </div>
       </div>
       <div className="flex flex-col rounded-xl bg-secondary my-4 text-foreground">
-        <h3 className="text-xl font-bold my-2 px-4">What's happening</h3>
+        <h3 className="text-xl font-bold my-2 px-4">What&apos;s happening</h3>
         {Array.from({ length: 5 }).map((_, i) => (
           <div
             key={i}

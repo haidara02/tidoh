@@ -76,6 +76,8 @@ const AuthModal = () => {
   return (
     <div>
       <Toaster />
+      <div className="hidden">{user ? user.email : null}</div>
+      {/* #TODO: Figure out how to use this user state in the app */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <div
           className={clsx(

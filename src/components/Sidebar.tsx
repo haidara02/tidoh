@@ -58,18 +58,22 @@ const Sidebar = () => {
           <span className="hidden xl:block">Wave</span>
         </Button>
       </div>
-      <button className="rounded-full w-full flex items-center justify-center xl:justify-between xl:gap-2 p-4 bg-transparent text-2xl font-bold hover:bg-foreground/10 transition duration-200">
-        <div className="flex items-center justify-center xl:space-x-2">
-          <div className="rounded-full bg-slate-400 w-12 h-12"></div>
-          <div className="text-left hidden xl:block">
-            <div className="text-sm font-bold text-foreground">User Name</div>
-            <div className="text-xs text-muted-foreground">@username</div>
+      <div className="w-full flex items-center justify-center p-3">
+        <Button className="flex rounded-full w-full items-center justify-between xl:gap-2 bg-transparent text-2xl py-8 px-4 font-bold hover:bg-foreground/10 transition duration-200 cursor-pointer">
+          <div className="flex items-center w-full gap-2 min-w-0">
+            <div className="rounded-full bg-slate-400 w-12 h-12 flex-shrink-0"></div>
+            <div className="text-left hidden xl:flex xl:flex-col min-w-0 flex-1">
+              <div className="text-sm font-bold text-foreground truncate">
+                User Namedddddddddddddddddddddddddddddddddd
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                @usernamedddddddddddddddddddddddddddddddddd
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="hidden xl:block text-foreground">
-          <BsThreeDots />
-        </div>
-      </button>
+          <BsThreeDots className="hidden xl:block text-foreground flex-shrink-0" />
+        </Button>
+      </div>
     </section>
   );
 };
