@@ -43,11 +43,9 @@ const DiscoverSection = () => {
             <div className="flex items-center w-full gap-3">
               <div className="rounded-full bg-slate-400 w-10 h-10 flex-shrink-0" />
               <div className="flex flex-col min-w-0 flex-1">
-                <div className="font-bold truncate">
-                  {i} Example User LOOOOOOOOOOOOOONG
-                </div>
+                <div className="font-bold truncate">Example User {i}</div>
                 <div className="text-muted-foreground text-xs truncate">
-                  @example{i}looooooooooooooooooong
+                  @example{i}
                 </div>
               </div>
               <Button className="rounded-full px-4 py-2 font-bold cursor-pointer flex-shrink-0 whitespace-nowrap">

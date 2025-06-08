@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent } from "@ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/dialog";
 import { Input } from "@ui/input";
 import { Button } from "@ui/button";
 import { Toaster } from "@ui/sonner";
@@ -27,8 +33,11 @@ const AuthModal = () => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      router.refresh();
+    } = supabase.auth.onAuthStateChange((e, session) => {
+      void session;
+      if (e !== "INITIAL_SESSION") {
+        router.refresh();
+      }
     });
 
     supabase.auth.getSession().then((res) => {
@@ -79,21 +88,14 @@ const AuthModal = () => {
       <div className="hidden">{user ? user.email : null}</div>
       {/* #TODO: Figure out how to use this user state in the app */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <div
-          className={clsx(
-            "fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm",
-            { hidden: !isOpen }
-          )}
+        <DialogContent
+          className="bg-background p-6 backdrop-blur-sm"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogContent
-            className="bg-background p-6"
-            onPointerDownOutside={(e) => e.preventDefault()}
-            onEscapeKeyDown={(e) => e.preventDefault()}
-          >
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              Please sign in to continue
-            </h3>
-            <div className="flex mb-4 gap-2">
+          <DialogHeader>
+            <DialogTitle>Please sign in to continue</DialogTitle>
+            <DialogDescription className="flex m-4 gap-5">
               <Button
                 variant="default"
                 className={clsx("flex-1", {
@@ -116,42 +118,41 @@ const AuthModal = () => {
               >
                 Sign Up
               </Button>
-            </div>
-            {!isSignUp ? (
-              <form onSubmit={handleLogin} className="space-y-4">
-                <Input type="email" name="email" placeholder="Email" required />
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (isSignUp) {
+                handleSignup(e);
+                return;
+              }
+              handleLogin(e);
+            }}
+            className="space-y-4"
+          >
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+              className="mb-2 border-[0.5px] border-gray-500"
+            />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              className="mb-2 border-[0.5px] border-gray-500"
+            />
+            {isSignUp && (
+              <div>
                 <Input
                   type="password"
-                  name="password"
-                  placeholder="Password"
+                  name="confirm_password"
+                  placeholder="Confirm Password"
                   required
-                />
-                <div className="flex w-full justify-end">
-                  <Button
-                    disabled={isLoading}
-                    variant="default"
-                    className="rounded-full py-2 px-4 text-lg font-bold cursor-pointer transition duration-200"
-                    type="submit"
-                  >
-                    Sign In
-                  </Button>
-                </div>
-              </form>
-            ) : (
-              <form onSubmit={handleSignup} className="space-y-4">
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  className="mb-2"
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  className="mb-2"
+                  className="mb-2 border-[0.5px] border-gray-500"
                 />
                 <Input
                   type="text"
@@ -161,7 +162,7 @@ const AuthModal = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  className="my-2"
+                  className="mb-2 border-[0.5px] border-gray-500"
                 />
                 <Input
                   type="text"
@@ -170,22 +171,23 @@ const AuthModal = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="my-2"
+                  className="mb-2 border-[0.5px] border-gray-500"
                 />
-                <div className="flex w-full justify-end">
-                  <Button
-                    disabled={isLoading}
-                    variant="default"
-                    className="rounded-full py-2 px-4 text-lg font-bold cursor-pointer transition duration-200"
-                    type="submit"
-                  >
-                    Sign Up
-                  </Button>
-                </div>
-              </form>
+              </div>
             )}
-          </DialogContent>
-        </div>
+
+            <div className="mt-5 flex w-full justify-end">
+              <Button
+                disabled={isLoading}
+                variant="default"
+                className="rounded-full py-2 px-4 text-lg font-bold cursor-pointer transition duration-200"
+                type="submit"
+              >
+                Sign {!isSignUp ? "In" : "Up"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   );

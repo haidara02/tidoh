@@ -8,11 +8,18 @@ import {
   BsThreeDots,
   BsTwitter,
 } from "react-icons/bs";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import Link from "next/link";
 import { HiOutlineHashtag } from "react-icons/hi";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { createClient } from "@utils/supabase/client";
+import { logout } from "@/app/api/actions";
+import { toast } from "sonner";
 
 const NAVIGATION_ITEMS = [
   { name: "Tydal", path: "/", icon: <BsTwitter /> },
@@ -44,7 +51,8 @@ const Sidebar = () => {
       } = await supabase.auth.getUser();
 
       if (userError || !user) {
-        alert("User not authenticated!");
+        // console.log("Testing 123");
+        // toast.error("Not signed in");
         return;
       }
 
@@ -69,6 +77,17 @@ const Sidebar = () => {
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
+
+  const handleLogout = async () => {
+    const result = await logout();
+
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Logged out successfully");
+      location.reload();
+    }
+  };
 
   return (
     <section className="sticky top-0 w-[10%] xl:w-[20%] min-w-[70px] xl:min-w-[250px] max-w-[250px] flex flex-col items-center h-screen">
@@ -105,21 +124,34 @@ const Sidebar = () => {
           <span className="hidden xl:block">Wave</span>
         </Button>
       </div>
-      <div className="w-full flex items-center justify-center p-3">
-        <Button className="flex rounded-full w-full items-center justify-between xl:gap-2 bg-transparent text-2xl py-8 px-4 font-bold hover:bg-foreground/10 transition duration-200 cursor-pointer">
-          <div className="flex items-center w-full gap-2 min-w-0">
-            <div className="rounded-full bg-slate-400 w-12 h-12 flex-shrink-0"></div>
-            <div className="text-left hidden xl:flex xl:flex-col min-w-0 flex-1">
-              <div className="text-sm font-bold text-foreground truncate">
-                {profile.full_name || "Anonymous User"}
-              </div>
-              <div className="text-xs text-muted-foreground truncate">
-                @{profile.username || "anonymous"}
+      <div className="w-full p-3">
+        <Popover>
+          <PopoverTrigger className="flex rounded-full w-full items-center justify-between xl:gap-2 bg-transparent text-2xl py-4 px-4 font-bold hover:bg-foreground/10 transition duration-200 cursor-pointer">
+            <div className="flex items-center w-full gap-2 min-w-0">
+              <div className="rounded-full bg-slate-400 w-12 h-12 flex-shrink-0"></div>
+              <div className="text-left hidden xl:flex xl:flex-col min-w-0 flex-1">
+                <div className="text-sm font-bold text-foreground truncate">
+                  {profile.full_name || "Anonymous User"}
+                </div>
+                <div className="text-xs text-muted-foreground truncate">
+                  @{profile.username || "anonymous"}
+                </div>
               </div>
             </div>
-          </div>
-          <BsThreeDots className="hidden xl:block text-foreground flex-shrink-0" />
-        </Button>
+            <BsThreeDots className="hidden xl:block text-foreground flex-shrink-0" />
+          </PopoverTrigger>
+          <PopoverContent className="w-full">
+            <div className="grid gap-4">
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={handleLogout}
+              >
+                Log out
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </section>
   );
