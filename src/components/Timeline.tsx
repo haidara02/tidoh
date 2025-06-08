@@ -8,7 +8,11 @@ import { fetchWaves } from "@/app/api/actions";
 import ComposeWave from "./ComposeWave";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 
 interface Wave {
