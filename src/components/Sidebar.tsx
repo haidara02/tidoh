@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
 import { BiHomeCircle, BiUser } from "react-icons/bi";
 import {
   BsBell,
@@ -11,6 +12,7 @@ import Link from "next/link";
 import { HiOutlineHashtag } from "react-icons/hi";
 import { Button } from "./ui/button";
 import clsx from "clsx";
+import { createClient } from "@utils/supabase/client";
 
 const NAVIGATION_ITEMS = [
   { name: "Tydal", path: "/", icon: <BsTwitter /> },
@@ -22,7 +24,52 @@ const NAVIGATION_ITEMS = [
   { name: "Profile", path: "/profile", icon: <BiUser /> },
 ];
 
+interface User {
+  full_name?: string;
+  username?: string;
+}
+
 const Sidebar = () => {
+  const supabase = createClient();
+  const [profile, setProfile] = useState<User>({
+    full_name: "",
+    username: "",
+  });
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        alert("User not authenticated!");
+        return;
+      }
+
+      console.log("User:", user.id);
+      const { data, error, status } = await supabase
+        .from("profiles")
+        .select(`full_name, username`)
+        .eq("id", user.id)
+        .single();
+      console.log("Profile data:", data);
+      if (!data || (error && status !== 406)) {
+        alert("Error loading user data!");
+        return;
+      }
+
+      setProfile(data);
+    } catch {
+      alert("Error loading user data!");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
   return (
     <section className="sticky top-0 w-[10%] xl:w-[20%] min-w-[70px] xl:min-w-[250px] max-w-[250px] flex flex-col items-center h-screen">
       <div className="flex flex-col p-2 items-center xl:items-stretch h-full space-y-4 mt-4">
@@ -64,10 +111,10 @@ const Sidebar = () => {
             <div className="rounded-full bg-slate-400 w-12 h-12 flex-shrink-0"></div>
             <div className="text-left hidden xl:flex xl:flex-col min-w-0 flex-1">
               <div className="text-sm font-bold text-foreground truncate">
-                User Namedddddddddddddddddddddddddddddddddd
+                {profile.full_name || "Anonymous User"}
               </div>
               <div className="text-xs text-muted-foreground truncate">
-                @usernamedddddddddddddddddddddddddddddddddd
+                @{profile.username || "anonymous"}
               </div>
             </div>
           </div>

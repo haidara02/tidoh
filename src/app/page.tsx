@@ -6,7 +6,7 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div className="w-full h-full flex justify-center items-center relative bg-background">
+    <div className="dark w-full h-full flex justify-center items-center relative bg-background">
       <AuthModal />
       <div className="w-full h-full flex justify-center text-primary">
         <Sidebar />
